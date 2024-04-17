@@ -1,4 +1,5 @@
 import { comments } from "../data";
+//get request
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
@@ -8,6 +9,7 @@ export async function GET(
   );
   return Response.json(comment);
 }
+//patch request
 export async function PATCH(
   request: Request,
   { params }: { params: { id: string } }
@@ -17,6 +19,18 @@ export async function PATCH(
   const index = comments.findIndex(
     (comment) => comment.id === parseInt(params.id)
   );
-  comments[index].text=text
-  return Response.json(comments[index])
+  comments[index].text = text;
+  return Response.json(comments[index]);
+}
+// delete request
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  const index = comments.findIndex(
+    (comment) => comment.id === parseInt(params.id)
+  );
+const deleted=comments[index]
+comments.splice(index,1)
+  return Response.json(deleted);
 }
