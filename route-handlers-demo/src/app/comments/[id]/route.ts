@@ -1,15 +1,19 @@
 import { NextRequest } from "next/server";
+import { redirect } from "next/navigation";
 import { comments } from "../data";
 //get request
-// export async function GET(
-//   request: Request,
-//   { params }: { params: { id: string } }
-// ) {
-//   const comment = comments.find(
-//     (comment) => comment.id === parseInt(params.id)
-//   );
-//   return Response.json(comment);
-// }
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  if (parseInt(params.id) > comments.length) {
+    redirect("/comments");
+  }
+  const comment = comments.find(
+    (comment) => comment.id === parseInt(params.id)
+  );
+  return Response.json(comment);
+}
 
 //patch request
 export async function PATCH(
@@ -37,13 +41,13 @@ export async function DELETE(
   return Response.json(deleted);
 }
 //querry params
-export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const query = searchParams.get("query");
-  const filteredcomment = query
-    ? comments.filter((comment) => {
-        comment.text.includes(query);
-      })
-    : comments;
-  return Response.json(filteredcomment);
-}
+// export async function GET(request: NextRequest) {
+//   const searchParams = request.nextUrl.searchParams;
+//   const query = searchParams.get("query");
+//   const filteredcomment = query
+//     ? comments.filter((comment) => {
+//         comment.text.includes(query);
+//       })
+//     : comments;
+//   return Response.json(filteredcomment);
+// }
